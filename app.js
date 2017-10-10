@@ -60,15 +60,15 @@ function onMouseClick(event) {
   canvas.height = CANVAS_HEIGHT;
   var context = canvas.getContext("2d");
 
-  //paint the image red
   context.fillStyle = "#ff0000";
-  context.fillRect(intersect.uv.x * CANVAS_WIDTH, intersect.uv.y * CANVAS_HEIGHT, 1, 1);
+  const rectX = intersect.uv.x * CANVAS_WIDTH;
+  // y coordinate needs to be inverted for some reason
+  const rectY = CANVAS_HEIGHT - (intersect.uv.y * CANVAS_HEIGHT);
+  context.fillRect(rectX, rectY, 1, 1);
 
-  //create image from canvas
   var image = new Image();
   image.src = canvas.toDataURL();
 
-  //create new texture
   var texture = new THREE.Texture(image);
   texture.anisotropy = 4;
   texture.needsUpdate = true;
