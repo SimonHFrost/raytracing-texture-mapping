@@ -9,12 +9,16 @@ init();
 function init() {
 
   camera = new THREE.PerspectiveCamera( 70, WIDTH / HEIGHT, 0.01, 10 );
-  camera.position.z = 1;
+
+  camera.position.x = 0.125;
+  camera.position.z = 0.25;
+  camera.position.y = 0.25;
+
   var controls = new THREE.OrbitControls( camera );
 
   scene = new THREE.Scene();
 
-  geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
+  geometry = new THREE.BoxGeometry( 0.2, 0.05, 0.1 );
 
   var textureLoader = new THREE.TextureLoader();
   var texture = textureLoader.load( "textures/crate.gif" );
