@@ -40,7 +40,7 @@ function onMouseClick(event) {
     return
   }
 
-  console.log(intersect.point);
+  console.log(intersect.uv);
 }
 
 function render() {
