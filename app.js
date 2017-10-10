@@ -28,35 +28,31 @@ function init() {
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
+var intersect = null;
 
-function onMouseMove( event ) {
-
-	// calculate mouse position in normalized device coordinates
-	// (-1 to +1) for both components
-
+function onMouseMove(event) {
 	mouse.x = ( event.clientX / WIDTH ) * 2 - 1;
 	mouse.y = - ( event.clientY / HEIGHT ) * 2 + 1;
+}
 
+function onMouseClick(event) {
+  console.log(intersect.point);
 }
 
 function render() {
 
-	// update the picking ray with the camera and mouse position
 	raycaster.setFromCamera( mouse, camera );
-
-	// calculate objects intersecting the picking ray
 	var intersects = raycaster.intersectObjects( scene.children );
 
-	for ( var i = 0; i < intersects.length; i++ ) {
-    var position = intersects[i].point;
-
-    console.log(intersects[i].object.geometry.type);
-		// intersects[ i ].object.material.color.set( 0xff0000 );
-	}
+  if (intersects[0]) {
+    console.log('found', intersects[0].object.geometry.type);
+    intersect = intersects[0];
+  }
 
 	renderer.render( scene, camera );
   window.requestAnimationFrame(render);
 }
 
 window.addEventListener( 'mousemove', onMouseMove, false );
+window.addEventListener( 'click', onMouseClick );
 window.requestAnimationFrame(render);
