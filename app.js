@@ -36,6 +36,10 @@ function onMouseMove(event) {
 }
 
 function onMouseClick(event) {
+  if (!intersect) {
+    return
+  }
+
   console.log(intersect.point);
 }
 
@@ -47,6 +51,8 @@ function render() {
   if (intersects[0]) {
     console.log('found', intersects[0].object.geometry.type);
     intersect = intersects[0];
+  } else {
+    intersect = null
   }
 
 	renderer.render( scene, camera );
