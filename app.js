@@ -8,6 +8,7 @@ function init() {
 
   camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
   camera.position.z = 1;
+  var controls = new THREE.OrbitControls( camera );
 
   scene = new THREE.Scene();
 
@@ -27,8 +28,7 @@ function animate() {
 
   requestAnimationFrame( animate );
 
-  mesh.rotation.x += 0.01;
-  mesh.rotation.y += 0.02;
+  mesh.rotation.y += 0.005;
 
   renderer.render( scene, camera );
 
