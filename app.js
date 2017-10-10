@@ -15,7 +15,15 @@ function init() {
   scene = new THREE.Scene();
 
   geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-  material = new THREE.MeshNormalMaterial();
+
+  var textureLoader = new THREE.TextureLoader();
+  var texture = textureLoader.load( "textures/crate.gif" );
+  var material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set( 1, 1 );
+  scene.add( new THREE.AmbientLight( 0xeef0ff ) );
+  var light = new THREE.DirectionalLight( 0xffffff );
+  light.position.set( 1, 1, 1 );
 
   mesh = new THREE.Mesh( geometry, material );
   scene.add( mesh );
@@ -49,7 +57,6 @@ function render() {
 	var intersects = raycaster.intersectObjects( scene.children );
 
   if (intersects[0]) {
-    console.log('found', intersects[0].object.geometry.type);
     intersect = intersects[0];
   } else {
     intersect = null
