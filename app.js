@@ -1,12 +1,15 @@
 var camera, scene, renderer;
 var geometry, material, mesh;
 
+var HEIGHT = 600;
+var WIDTH = 800;
+
 init();
 animate();
 
 function init() {
 
-  camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
+  camera = new THREE.PerspectiveCamera( 70, WIDTH / HEIGHT, 0.01, 10 );
   camera.position.z = 1;
   var controls = new THREE.OrbitControls( camera );
 
@@ -19,7 +22,7 @@ function init() {
   scene.add( mesh );
 
   renderer = new THREE.WebGLRenderer( { antialias: true } );
-  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize( WIDTH, HEIGHT );
   document.body.appendChild( renderer.domElement );
 
 }
