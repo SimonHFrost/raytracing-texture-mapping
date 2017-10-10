@@ -6,6 +6,21 @@ var WIDTH = 800;
 
 init();
 
+function createCanvasTexture() {
+  var canvas = document.createElement("canvas");
+  canvas.width = WIDTH;
+  canvas.height = HEIGHT;
+  var context = canvas.getContext("2d");
+  context.fillStyle = "blue";
+  context.fillRect(0, 0, WIDTH, HEIGHT);
+
+  var texture = new THREE.Texture(canvas);
+  texture.anisotropy = 4;
+  texture.needsUpdate = true;
+
+  return texture;
+}
+
 function init() {
 
   camera = new THREE.PerspectiveCamera( 70, WIDTH / HEIGHT, 0.01, 10 );
@@ -21,8 +36,10 @@ function init() {
   geometry = new THREE.BoxGeometry( 0.2, 0.05, 0.1 );
 
   var textureLoader = new THREE.TextureLoader();
-  var texture = textureLoader.load( "textures/crate.gif" );
-  var material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
+  // var texture = textureLoader.load( "textures/crate.gif" );
+  var texture = createCanvasTexture();
+  // var material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
+  var material = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set( 1, 1 );
   scene.add( new THREE.AmbientLight( 0xeef0ff ) );
@@ -33,6 +50,7 @@ function init() {
   scene.add( mesh );
 
   renderer = new THREE.WebGLRenderer( { antialias: true } );
+  renderer.setClearColor (0xffffff, 1);
   renderer.setSize( WIDTH, HEIGHT );
   document.body.appendChild( renderer.domElement );
 
@@ -47,8 +65,8 @@ function onMouseMove(event) {
 	mouse.y = - ( event.clientY / HEIGHT ) * 2 + 1;
 }
 
-var CANVAS_WIDTH = 100;
-var CANVAS_HEIGHT = 100;
+var CANVAS_WIDTH = 256;
+var CANVAS_HEIGHT = 128;
 
 function onMouseClick(event) {
   if (!intersect) {
@@ -59,6 +77,9 @@ function onMouseClick(event) {
   canvas.width = CANVAS_WIDTH;
   canvas.height = CANVAS_HEIGHT;
   var context = canvas.getContext("2d");
+
+  context.fillStyle = "blue";
+  context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
   context.fillStyle = "#ff0000";
   const rectX = intersect.uv.x * CANVAS_WIDTH;
