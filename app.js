@@ -47,10 +47,33 @@ function onMouseMove(event) {
 	mouse.y = - ( event.clientY / HEIGHT ) * 2 + 1;
 }
 
+var CANVAS_WIDTH = 100;
+var CANVAS_HEIGHT = 100;
+
 function onMouseClick(event) {
   if (!intersect) {
     return
   }
+
+  var canvas = document.createElement("canvas");
+  canvas.width = CANVAS_WIDTH;
+  canvas.height = CANVAS_HEIGHT;
+  var context = canvas.getContext("2d");
+
+  //paint the image red
+  context.fillStyle = "#ff0000";
+  context.fillRect(intersect.uv.x * CANVAS_WIDTH, intersect.uv.y * CANVAS_HEIGHT, 1, 1);
+
+  //create image from canvas
+  var image = new Image();
+  image.src = canvas.toDataURL();
+
+  //create new texture
+  var texture = new THREE.Texture(image);
+  texture.anisotropy = 4;
+  texture.needsUpdate = true;
+
+  mesh.material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
 
   console.log(intersect.uv);
 }
