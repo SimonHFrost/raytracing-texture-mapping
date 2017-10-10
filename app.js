@@ -5,7 +5,6 @@ var HEIGHT = 600;
 var WIDTH = 800;
 
 init();
-animate();
 
 function init() {
 
@@ -27,12 +26,37 @@ function init() {
 
 }
 
-function animate() {
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
 
-  requestAnimationFrame( animate );
+function onMouseMove( event ) {
 
-  mesh.rotation.y += 0.005;
+	// calculate mouse position in normalized device coordinates
+	// (-1 to +1) for both components
 
-  renderer.render( scene, camera );
+	mouse.x = ( event.clientX / WIDTH ) * 2 - 1;
+	mouse.y = - ( event.clientY / HEIGHT ) * 2 + 1;
 
 }
+
+function render() {
+
+	// update the picking ray with the camera and mouse position
+	raycaster.setFromCamera( mouse, camera );
+
+	// calculate objects intersecting the picking ray
+	var intersects = raycaster.intersectObjects( scene.children );
+
+	for ( var i = 0; i < intersects.length; i++ ) {
+    var position = intersects[i].point;
+
+    console.log(intersects[i].object.geometry.type);
+		// intersects[ i ].object.material.color.set( 0xff0000 );
+	}
+
+	renderer.render( scene, camera );
+  window.requestAnimationFrame(render);
+}
+
+window.addEventListener( 'mousemove', onMouseMove, false );
+window.requestAnimationFrame(render);
