@@ -4,6 +4,9 @@ var geometry, material, mesh;
 var HEIGHT = 600;
 var WIDTH = 800;
 
+var CANVAS_WIDTH = 256;
+var CANVAS_HEIGHT = 128;
+
 var baseImage = new Image();
 baseImage.src = 'textures/crate.gif';
 baseImage.onload = function(){
@@ -15,11 +18,11 @@ baseImage.onload = function(){
 
 function createCanvasTexture() {
   var canvas = document.createElement("canvas");
-  canvas.width = WIDTH;
-  canvas.height = HEIGHT;
+  canvas.width = CANVAS_WIDTH;
+  canvas.height = CANVAS_HEIGHT;
   var context = canvas.getContext("2d");
 
-  context.drawImage(baseImage, 100, 100);
+  context.drawImage(baseImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
   var texture = new THREE.Texture(canvas);
   texture.anisotropy = 4;
@@ -43,7 +46,6 @@ function init() {
   geometry = new THREE.BoxGeometry( 0.2, 0.05, 0.1 );
 
   var textureLoader = new THREE.TextureLoader();
-  // var texture = textureLoader.load( "textures/crate.gif" );
   var texture = createCanvasTexture();
   var material = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -71,9 +73,6 @@ function onMouseMove(event) {
 	mouse.y = - ( event.clientY / HEIGHT ) * 2 + 1;
 }
 
-var CANVAS_WIDTH = 256;
-var CANVAS_HEIGHT = 128;
-
 function onMouseClick(event) {
   if (!intersect) {
     return
@@ -84,14 +83,13 @@ function onMouseClick(event) {
   canvas.height = CANVAS_HEIGHT;
   var context = canvas.getContext("2d");
 
-  context.fillStyle = "blue";
-  context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  context.drawImage(baseImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
   context.fillStyle = "#ff0000";
   const rectX = intersect.uv.x * CANVAS_WIDTH;
   // y coordinate needs to be inverted for some reason
   const rectY = CANVAS_HEIGHT - (intersect.uv.y * CANVAS_HEIGHT);
-  context.fillRect(rectX, rectY, 1, 1);
+  context.fillRect(rectX - 5, rectY - 5, 10, 10);
 
   var image = new Image();
   image.src = canvas.toDataURL();
@@ -101,8 +99,6 @@ function onMouseClick(event) {
   texture.needsUpdate = true;
 
   mesh.material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
-
-  console.log(intersect.uv);
 }
 
 function render() {
