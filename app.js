@@ -97,6 +97,8 @@ function onMouseClick(event) {
 
   context.drawImage(smileImage, rectX - 50, rectY - 50, 100, 100);
 
+  document.querySelector('.display').innerHTML = 'Sticker position: ' + rectX + ', ' + rectY;
+
   var image = new Image();
   image.src = canvas.toDataURL();
 
