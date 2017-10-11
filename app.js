@@ -7,13 +7,19 @@ var WIDTH = 800;
 var CANVAS_WIDTH = 512;
 var CANVAS_HEIGHT = 256;
 
-var baseImage = new Image();
-baseImage.src = 'textures/crate.gif';
-baseImage.onload = function(){
-  init();
-  window.addEventListener( 'mousemove', onMouseMove, false );
-  window.addEventListener( 'click', onMouseClick );
-  window.requestAnimationFrame(render);
+var crateImage = new Image();
+var smileImage = null;
+
+crateImage.src = 'images/crate.gif';
+crateImage.onload = function(){
+  smileImage = new Image();
+  smileImage.src = 'images/smile.png';
+  smileImage.onload = function() {
+    init();
+    window.addEventListener( 'mousemove', onMouseMove, false );
+    window.addEventListener( 'click', onMouseClick );
+    window.requestAnimationFrame(render);
+  }
 }
 
 function createCanvasTexture() {
@@ -22,7 +28,7 @@ function createCanvasTexture() {
   canvas.height = CANVAS_HEIGHT;
   var context = canvas.getContext("2d");
 
-  context.drawImage(baseImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  context.drawImage(crateImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
   var texture = new THREE.Texture(canvas);
   texture.anisotropy = 4;
@@ -83,13 +89,13 @@ function onMouseClick(event) {
   canvas.height = CANVAS_HEIGHT;
   var context = canvas.getContext("2d");
 
-  context.drawImage(baseImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  context.drawImage(crateImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  context.fillStyle = "#ff0000";
   const rectX = intersect.uv.x * CANVAS_WIDTH;
   // y coordinate needs to be inverted for some reason
   const rectY = CANVAS_HEIGHT - (intersect.uv.y * CANVAS_HEIGHT);
-  context.fillRect(rectX - 5, rectY - 5, 10, 10);
+
+  context.drawImage(smileImage, rectX - 50, rectY - 50, 100, 100);
 
   var image = new Image();
   image.src = canvas.toDataURL();
