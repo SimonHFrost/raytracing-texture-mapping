@@ -4,15 +4,22 @@ var geometry, material, mesh;
 var HEIGHT = 600;
 var WIDTH = 800;
 
-init();
+var baseImage = new Image();
+baseImage.src = 'textures/crate.gif';
+baseImage.onload = function(){
+  init();
+  window.addEventListener( 'mousemove', onMouseMove, false );
+  window.addEventListener( 'click', onMouseClick );
+  window.requestAnimationFrame(render);
+}
 
 function createCanvasTexture() {
   var canvas = document.createElement("canvas");
   canvas.width = WIDTH;
   canvas.height = HEIGHT;
   var context = canvas.getContext("2d");
-  context.fillStyle = "blue";
-  context.fillRect(0, 0, WIDTH, HEIGHT);
+
+  context.drawImage(baseImage, 100, 100);
 
   var texture = new THREE.Texture(canvas);
   texture.anisotropy = 4;
@@ -38,7 +45,6 @@ function init() {
   var textureLoader = new THREE.TextureLoader();
   // var texture = textureLoader.load( "textures/crate.gif" );
   var texture = createCanvasTexture();
-  // var material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
   var material = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set( 1, 1 );
@@ -113,7 +119,3 @@ function render() {
 	renderer.render( scene, camera );
   window.requestAnimationFrame(render);
 }
-
-window.addEventListener( 'mousemove', onMouseMove, false );
-window.addEventListener( 'click', onMouseClick );
-window.requestAnimationFrame(render);
