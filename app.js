@@ -4,8 +4,8 @@ var geometry, material, mesh;
 var HEIGHT = 600;
 var WIDTH = 800;
 
-var CANVAS_WIDTH = 256;
-var CANVAS_HEIGHT = 128;
+var CANVAS_WIDTH = 512;
+var CANVAS_HEIGHT = 256;
 
 var baseImage = new Image();
 baseImage.src = 'textures/crate.gif';
